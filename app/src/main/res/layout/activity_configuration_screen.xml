@@ -197,14 +197,43 @@
                             android:id="@+id/sbTopRadius"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginEnd="24dp"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="16dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView7"
+                            app:layout_constraintVertical_bias="1.0"/>
+
+                        <Button
+                            android:id="@+id/button_preset"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="12dp"
+                            android:text="Using preset"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/button_import"
+                            app:layout_constraintTop_toBottomOf="@+id/sbTopRadius"
+                            app:layout_constraintVertical_bias="0.0"/>
+
+                        <Button
+                            android:id="@+id/button_import"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="12dp"
+                            android:text="Import data file"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/sbTopRadius"
+                            app:layout_constraintVertical_bias="0.0"
+                            tools:layout_editor_absoluteX="24dp"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>

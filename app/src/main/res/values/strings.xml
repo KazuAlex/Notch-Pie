@@ -21,4 +21,12 @@
     <string name="alert_overlay_description">In order to show the overlay this app requires the permission to draw over other apps.</string>
     <string name="alert_overlay_title">Overlay Permission</string>
     <string name="alert_overlay_request">Please enable Notch Pie.</string>
+
+    <string name="device_preset_choose">Choose a device</string>
+    <string name="device_oneplus_6t">OnePlus 6T</string>
+    <string name="device_redmi_note_7">Redmi Note 7</string>
+    <string name="device_redmi_note_7_pro">Redmi Note 7 Pro</string>
+    <string name="device_huawei_p20">Huawei P20</string>
+    <string name="device_huawei_p20_pro">Huawei P20 Pro</string>
+    <string name="device_huawei_p30_pro">Huawei P30 Pro</string>
 </resources>

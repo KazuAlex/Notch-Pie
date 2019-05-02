@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preset_devices">
+        <item>@string/device_oneplus_6t</item>
+        <item>@string/device_redmi_note_7</item>
+        <item>@string/device_redmi_note_7_pro</item>
+        <item>@string/device_huawei_p20</item>
+        <item>@string/device_huawei_p20_pro</item>
+        <item>@string/device_huawei_p30_pro</item>
+    </array>
+</resources>

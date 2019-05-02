@@ -1,19 +1,18 @@
 package com.oddlyspaced.np.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.oddlyspaced.np.Adapter.BatteryColorAdapter;
 import com.oddlyspaced.np.R;
 import com.oddlyspaced.np.Utils.ColorLevel;
@@ -22,10 +21,18 @@ import com.oddlyspaced.np.Utils.DataManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ConfigurationScreen extends AppCompatActivity implements ColorPicker.ColorPickerListener, BatteryColorAdapter.onTouchColorLevel {
 
     private SeekBar height, widht, notchSize, notchRadiusB, notchRadiusT;
+    private Button importBtn, presetBtn;
     private DataManager dataManager;
 
     private int[] heightLimit = {50, 500};
@@ -39,6 +46,8 @@ public class ConfigurationScreen extends AppCompatActivity implements ColorPicke
     private ArrayList<ColorLevel> list;
 
     private int positionTouch = -1;
+
+    private final HashMap<String, Map<String, Integer>> presetData = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +142,14 @@ public class ConfigurationScreen extends AppCompatActivity implements ColorPicke
         }
     }
 
+    private void setDataFromManager() {
+        height.setProgress(dataManager.getHeight());
+        widht.setProgress(dataManager.getWidht());
+        notchSize.setProgress(dataManager.getNotchSize());
+        notchRadiusB.setProgress(dataManager.getBottomRadius());
+        notchRadiusT.setProgress(dataManager.getTopRadius());
+    }
+
     private void initViews() {
         height = findViewById(R.id.sbHeight);
         widht = findViewById(R.id.sbWidht);
@@ -142,11 +159,7 @@ public class ConfigurationScreen extends AppCompatActivity implements ColorPicke
         // setting progress
         dataManager = new DataManager();
         dataManager.read();
-        height.setProgress(dataManager.getHeight());
-        widht.setProgress(dataManager.getWidht());
-        notchSize.setProgress(dataManager.getNotchSize());
-        notchRadiusB.setProgress(dataManager.getBottomRadius());
-        notchRadiusT.setProgress(dataManager.getTopRadius());
+        this.setDataFromManager();
         // setting listener
         height.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -254,6 +267,108 @@ public class ConfigurationScreen extends AppCompatActivity implements ColorPicke
             }
         });
         batteryColorView = findViewById(R.id.rvBatteryColor);
+
+
+        // create HashMap with notch data by devices
+        this.setPresetDataMap();
+
+        // set button listeners
+        importBtn = findViewById(R.id.button_import);
+        presetBtn = findViewById(R.id.button_preset);
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+                Toast.makeText(getApplicationContext(), "Soon...", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        presetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] presetDevices = getResources().getStringArray(R.array.preset_devices);
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        new ContextThemeWrapper(ConfigurationScreen.this, R.style.DialogTheme)
+                );
+                builder.setTitle(R.string.device_preset_choose);
+                builder.setItems(presetDevices, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ConfigurationScreen.this.setDataFromPreset(presetDevices[which]);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void setPresetDataMap() {
+        HashMap<String, Integer> OP6TData = new HashMap<>();
+        OP6TData.put("height", 94);
+        OP6TData.put("width", 21);
+        OP6TData.put("notchSize", 92);
+        OP6TData.put("topRadius", 0);
+        OP6TData.put("bottomRadius", 43);
+        presetData.put(getString(R.string.device_oneplus_6t), OP6TData);
+        HashMap<String, Integer> RN7Data = new HashMap<>();
+        OP6TData.put("height", 97);
+        OP6TData.put("width", 1);
+        OP6TData.put("notchSize", 76);
+        OP6TData.put("topRadius", 0);
+        OP6TData.put("bottomRadius", 100);
+        presetData.put(getString(R.string.device_redmi_note_7), RN7Data);
+        HashMap<String, Integer> RN7ProData = new HashMap<>();
+        OP6TData.put("height", 97);
+        OP6TData.put("width", 1);
+        OP6TData.put("notchSize", 76);
+        OP6TData.put("topRadius", 0);
+        OP6TData.put("bottomRadius", 100);
+        presetData.put(getString(R.string.device_redmi_note_7_pro), RN7ProData);
+        HashMap<String, Integer> HuaweiP20Data = new HashMap<>();
+        OP6TData.put("height", 100);
+        OP6TData.put("width", 56);
+        OP6TData.put("notchSize", 167);
+        OP6TData.put("topRadius", 81);
+        OP6TData.put("bottomRadius", 80);
+        presetData.put(getString(R.string.device_huawei_p20), HuaweiP20Data);
+        HashMap<String, Integer> HuaweiP20ProData = new HashMap<>();
+        OP6TData.put("height", 100);
+        OP6TData.put("width", 56);
+        OP6TData.put("notchSize", 167);
+        OP6TData.put("topRadius", 81);
+        OP6TData.put("bottomRadius", 80);
+        presetData.put(getString(R.string.device_huawei_p20_pro), HuaweiP20ProData);
+        HashMap<String, Integer> HuaweiP30ProData = new HashMap<>();
+        OP6TData.put("height", 89);
+        OP6TData.put("width", 15);
+        OP6TData.put("notchSize", 91);
+        OP6TData.put("topRadius", 66);
+        OP6TData.put("bottomRadius", 63);
+        presetData.put(getString(R.string.device_huawei_p30_pro), HuaweiP30ProData);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void setDataFromPreset(String device) {
+        Log.d("NotchPie", "device choosed : "+ device);
+        if (presetData.containsKey(device)) {
+            Map<String, Integer> preset = presetData.get(device);
+            if (null != preset) {
+                try {
+                    dataManager.setHeight(preset.get("height"));
+                    dataManager.setWidht(preset.get("width"));
+                    dataManager.setNotchSize(preset.get("notchSize"));
+                    dataManager.setTopRadius(preset.get("topRadius"));
+                    dataManager.setBottomRadius(preset.get("bottomRadius"));
+                    dataManager.save();
+                    this.setDataFromManager();
+                } catch (NullPointerException e) {
+                    // TODO
+                }
+            }
+        }
+        //dataManager.setHeight();
+
     }
 
     private void loadRecycler() {
